@@ -46,7 +46,11 @@ ActiveAdmin.register Asset do
         @asset.storage = params['file']
 
         if @asset.save!
-          render json: { success: true }.to_json
+          render json: { 
+            image: {
+              url: @asset.storage.url
+            }
+          }, content_type: "text/html"
         else
           render nothing: true, status: 500 and return
         end
@@ -62,7 +66,11 @@ ActiveAdmin.register Asset do
 
         @asset.storage = Dragonfly::TempObject.new(io.respond_to?(:string) ? io.string : io.read)
         if @asset.save!
-          render json: { success: true }.to_json
+          render json: { 
+            image: {
+              url: @asset.storage.url
+            }
+          }, content_type: "text/html"
         else
           render nothing: true, status: 500 and return
         end
